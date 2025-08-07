@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/theme/theme_notifier.dart';
 
-class TodoHome extends StatefulWidget {
+class TodoHome extends ConsumerWidget {
   const TodoHome({super.key});
 
   @override
-  State<TodoHome> createState() => _TodoHomeState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // access current theme's properties from Material App provider consumption
+    final textTheme = Theme.of(context).textTheme;
+    final iconTheme = Theme.of(context).iconTheme;
 
-class _TodoHomeState extends State<TodoHome> {
-  @override
-  Widget build(BuildContext context) {
+    // current theme mode
+    final currentMode = ref.watch(themeModeProvider);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -22,6 +26,14 @@ class _TodoHomeState extends State<TodoHome> {
                   const Text(
                     'My Todo',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
+                        child: Icon(icon),
+                      ),
+                    ],
                   ),
                 ],
               ),
