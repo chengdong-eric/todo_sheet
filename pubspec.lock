@@ -134,14 +134,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
-  flutter_sfsymbols:
-    dependency: "direct main"
-    description:
-      name: flutter_sfsymbols
-      sha256: e72565d9ed3e55fa4fb32920882a485245ba7791e49477b03c0597b2e41e7064
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -360,6 +352,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.14.2"
+  pull_down_button:
+    dependency: "direct main"
+    description:
+      name: pull_down_button
+      sha256: "12cdd8ff187a3150ebdf075e5074299f085579b158d2b4e655ccbafccf95f25b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.2"
   qr:
     dependency: transitive
     description:

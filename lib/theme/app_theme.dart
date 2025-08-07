@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 HSLColor baseGrey = HSLColor.fromAHSL(1.0, 38, 0.06, 1.0);
 HSLColor baseRed = HSLColor.fromAHSL(1.0, 0, 0.69, 1.0);
