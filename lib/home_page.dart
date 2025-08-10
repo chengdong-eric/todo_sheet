@@ -27,10 +27,7 @@ class HomePage extends ConsumerWidget {
               onPressed: () => Navigator.of(dialogContext).pop(),
             ),
             TextButton(
-              child: Text(
-                'Clear',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
+              child: Text('Clear', style: TextStyle(color: Color(0xFFD62C1A))),
               onPressed: () {
                 Navigator.of(dialogContext).pop(); // Close the dialog
 
