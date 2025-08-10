@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sficon/flutter_sficon.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:todo_list/components/home_dot_painter.dart';
+import 'package:todo_list/components/todo_list_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Dummy providers for now. In a real app, these would manage a list of Todo objects.
 final todoListProvider = StateProvider<List<String>>((ref) => []);
 final listTitleProvider = StateProvider<String>((ref) => "Today");
+final editingIndexProvider = StateProvider<int?>((ref) => null);
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -65,17 +67,6 @@ class HomePage extends ConsumerWidget {
     final todos = ref.watch(todoListProvider);
 
     return Scaffold(
-      // Dotted background pattern (simple implementation using a repeating image)
-      // For this to work, create a 10x10 png image of a single dot
-      // and add it to an `assets` folder.
-      // body: Container(
-      //   decoration: const BoxDecoration(
-      //     image: DecorationImage(
-      //       image: AssetImage("assets/dot.png"),
-      //       repeat: ImageRepeat.repeat,
-      //     ),
-      //   ),
-      // ),
       body: SafeArea(
         child: Column(
           children: [
@@ -172,90 +163,7 @@ class HomePage extends ConsumerWidget {
             ),
             const Divider(), // The accent-colored underline
             // --- To-Do List View ---
-            Expanded(
-              child: CustomPaint(
-                painter: DotPainter(
-                  spacing: 40,
-                  dotRadius: 5,
-                  color: Colors.grey.shade100,
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    // Add a new task when tapping on the empty space
-                    ref
-                        .read(todoListProvider.notifier)
-                        .update(
-                          (state) => [...state, "New Item ${state.length + 1}"],
-                        );
-                  },
-                  child: todos.isEmpty
-                      // Empty State Placeholder
-                      ? Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                              vertical: 12.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.check_box_outline_blank,
-                                  color: Colors.grey[300],
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  "Tap here to add a task",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      // List of Tasks
-                      : ListView.builder(
-                          itemCount: todos.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  leading: const Icon(
-                                    Icons.check_box_outline_blank,
-                                  ),
-                                  title: Text(
-                                    todos[index],
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge,
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const SFIcon(SFIcons.sf_info_circle),
-                                    onPressed: () {
-                                      // TODO: Navigate to DetailPage
-                                    },
-                                  ),
-                                  // Direct tap on tile to edit
-                                  onTap: () {
-                                    // TODO: Implement inline editing logic
-                                  },
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: Divider(
-                                    height: 1,
-                                    thickness: 1,
-                                    color: Colors.grey[200],
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                ),
-              ),
-            ),
+            TodoListSection(),
           ],
         ),
       ),
