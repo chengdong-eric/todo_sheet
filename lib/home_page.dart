@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sficon/flutter_sficon.dart';
 import 'package:pull_down_button/pull_down_button.dart';
+import 'package:todo_list/components/home_dot_painter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Dummy providers for now. In a real app, these would manage a list of Todo objects.
@@ -172,78 +173,87 @@ class HomePage extends ConsumerWidget {
             const Divider(), // The accent-colored underline
             // --- To-Do List View ---
             Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  // Add a new task when tapping on the empty space
-                  ref
-                      .read(todoListProvider.notifier)
-                      .update(
-                        (state) => [...state, "New Item ${state.length + 1}"],
-                      );
-                },
-                child: todos.isEmpty
-                    // Empty State Placeholder
-                    ? Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                            vertical: 12.0,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.check_box_outline_blank,
-                                color: Colors.grey[300],
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                "Tap here to add a task",
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    // List of Tasks
-                    : ListView.builder(
-                        itemCount: todos.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              ListTile(
-                                leading: const Icon(
+              child: CustomPaint(
+                painter: DotPainter(
+                  spacing: 40,
+                  dotRadius: 5,
+                  color: Colors.grey.shade100,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    // Add a new task when tapping on the empty space
+                    ref
+                        .read(todoListProvider.notifier)
+                        .update(
+                          (state) => [...state, "New Item ${state.length + 1}"],
+                        );
+                  },
+                  child: todos.isEmpty
+                      // Empty State Placeholder
+                      ? Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 12.0,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
                                   Icons.check_box_outline_blank,
+                                  color: Colors.grey[300],
                                 ),
-                                title: Text(
-                                  todos[index],
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                const SizedBox(width: 12),
+                                Text(
+                                  "Tap here to add a task",
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                trailing: IconButton(
-                                  icon: const SFIcon(SFIcons.sf_info_circle),
-                                  onPressed: () {
-                                    // TODO: Navigate to DetailPage
+                              ],
+                            ),
+                          ),
+                        )
+                      // List of Tasks
+                      : ListView.builder(
+                          itemCount: todos.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  leading: const Icon(
+                                    Icons.check_box_outline_blank,
+                                  ),
+                                  title: Text(
+                                    todos[index],
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge,
+                                  ),
+                                  trailing: IconButton(
+                                    icon: const SFIcon(SFIcons.sf_info_circle),
+                                    onPressed: () {
+                                      // TODO: Navigate to DetailPage
+                                    },
+                                  ),
+                                  // Direct tap on tile to edit
+                                  onTap: () {
+                                    // TODO: Implement inline editing logic
                                   },
                                 ),
-                                // Direct tap on tile to edit
-                                onTap: () {
-                                  // TODO: Implement inline editing logic
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                  ),
+                                  child: Divider(
+                                    height: 1,
+                                    thickness: 1,
+                                    color: Colors.grey[200],
+                                  ),
                                 ),
-                                child: Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                              ],
+                            );
+                          },
+                        ),
+                ),
               ),
             ),
           ],
