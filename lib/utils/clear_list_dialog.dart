@@ -35,6 +35,7 @@ Future<void> showClearListDialog(BuildContext context, WidgetRef ref) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('List Cleared.'),
+        duration: const Duration(seconds: 2),
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {

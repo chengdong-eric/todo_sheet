@@ -53,12 +53,19 @@ class TodoListSection extends ConsumerWidget {
           if (todos.isEmpty)
             const IgnorePointer(child: EmptyTodoPlaceholder())
           else
-            ListView.builder(
-              itemCount: todos.length,
-              itemBuilder: (c, i) {
-                final todo = todos[i];
-                return TodoItem(todoId: todo.id);
-              },
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListView.builder(
+                    itemCount: todos.length,
+                    itemBuilder: (c, i) {
+                      final todo = todos[i];
+                      return TodoItem(todoId: todo.id);
+                    },
+                  ),
+                  SizedBox(height: 24),
+                ],
+              ),
             ),
         ],
       ),
