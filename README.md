@@ -1,4 +1,8 @@
 # todo_list
 
-Who's ready for another to-do list built by a newly minted mobile developer? Let me see some hands up! Just kidding, this is my first attempt at building an App in flutter.
+Simple, minimalistic one-page todo list to help you keep track of daily todos.
+
+## One page
+
+The app only has one page. Todo sheet gives user the option to "Erase" everything after using it for a day.
 
