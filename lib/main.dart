@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/home_page.dart';
-import 'package:todo_list/Providers/theme_provider.dart';
+import 'package:todo_list/providers/theme_provider.dart';
 
 void main() {
   runApp(const ProviderScope(child: TodoSheetApp()));

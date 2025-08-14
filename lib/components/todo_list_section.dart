@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/Providers/todo_list_provider.dart';
+import 'package:todo_list/providers/todo_list_provider.dart';
 import 'package:todo_list/components/empty_todo_placeholder.dart';
 import 'package:todo_list/components/home_dot_painter.dart';
 import 'package:todo_list/components/todo_item.dart';
@@ -38,36 +38,38 @@ class TodoListSection extends ConsumerWidget {
         : Colors.transparent;
 
     return Expanded(
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => _startNewTodo(ref),
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => _startNewTodo(ref),
+        child: Stack(
+          children: [
+            Positioned.fill(
               child: CustomPaint(
                 painter: DotPainter(spacing: 40, dotRadius: 5, color: dotColor),
                 child: Container(),
               ),
             ),
-          ),
-          if (todos.isEmpty)
-            const IgnorePointer(child: EmptyTodoPlaceholder())
-          else
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListView.builder(
-                    itemCount: todos.length,
-                    itemBuilder: (c, i) {
-                      final todo = todos[i];
-                      return TodoItem(todoId: todo.id);
-                    },
-                  ),
-                  SizedBox(height: 24),
-                ],
+            if (todos.isEmpty)
+              const IgnorePointer(child: EmptyTodoPlaceholder())
+            else
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: todos.length,
+                      itemBuilder: (c, i) {
+                        final todo = todos[i];
+                        return TodoItem(todoId: todo.id);
+                      },
+                    ),
+                    SizedBox(height: 24),
+                  ],
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

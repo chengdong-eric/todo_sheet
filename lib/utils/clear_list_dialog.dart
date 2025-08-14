@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list/Providers/todo_list_provider.dart';
-import 'package:todo_list/home_page.dart';
+import 'package:todo_list/providers/todo_list_provider.dart';
 
 Future<void> showClearListDialog(BuildContext context, WidgetRef ref) async {
   final backup = ref.read(todoListProvider);
@@ -30,19 +29,26 @@ Future<void> showClearListDialog(BuildContext context, WidgetRef ref) async {
   );
 
   if (shouldClear == true) {
-    ref.read(todoListProvider.notifier).state = [];
+    // Clear any currently editing todo first
+    ref.read(editingIdProvider.notifier).state = null;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('List Cleared.'),
-        duration: const Duration(seconds: 2),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            ref.read(todoListProvider.notifier).state = backup;
-          },
+    // Use the new notifier method to clear the list
+    ref.read(todoListProvider.notifier).clearAll();
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('List Cleared.'),
+          duration: const Duration(seconds: 2),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              // Use the new notifier method to restore the backup
+              ref.read(todoListProvider.notifier).restore(backup);
+            },
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sficon/flutter_sficon.dart';
 import 'package:pull_down_button/pull_down_button.dart';
-import 'package:todo_list/Providers/todo_list_provider.dart';
+import 'package:todo_list/providers/todo_list_provider.dart';
 import 'package:todo_list/components/editable_title.dart';
-import 'package:todo_list/components/home_dot_painter.dart';
 import 'package:todo_list/components/todo_list_section.dart';
+import 'package:todo_list/screens/settings/settings.dart';
 import 'package:todo_list/utils/clear_list_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-// Dummy providers for now. In a real app, these would manage a list of Todo objects.
-final titleProvider = StateProvider<String>((ref) => "My Todos");
-final isTitleEditingProvider = StateProvider<bool>((ref) => false);
-final editingIdProvider = StateProvider<String?>((ref) => null);
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -33,7 +28,7 @@ class HomePage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // --- Editable Title ---
-                  EditableTitle(),
+                  const EditableTitle(),
                   // --- Action Buttons ---
                   Row(
                     children: [
@@ -84,7 +79,12 @@ class HomePage extends ConsumerWidget {
                             title: 'Settings',
                             icon: SFIcons.sf_gear,
                             onTap: () {
-                              // TODO: Navigate to SettingsPage
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SettingsPage(),
+                                ),
+                              );
                             },
                           ),
                           PullDownMenuItem(
@@ -97,7 +97,7 @@ class HomePage extends ConsumerWidget {
                         ],
                         buttonBuilder: (context, showMenu) => IconButton(
                           onPressed: showMenu,
-                          icon: SFIcon(SFIcons.sf_ellipsis_circle),
+                          icon: const SFIcon(SFIcons.sf_ellipsis_circle),
                         ),
                       ),
                     ],
@@ -107,7 +107,7 @@ class HomePage extends ConsumerWidget {
             ),
             const Divider(), // The accent-colored underline
             // --- To-Do List View ---
-            TodoListSection(),
+            const TodoListSection(),
           ],
         ),
       ),

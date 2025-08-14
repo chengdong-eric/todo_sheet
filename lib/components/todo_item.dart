@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sficon/flutter_sficon.dart';
-import 'package:todo_list/Providers/todo_list_provider.dart';
+import 'package:todo_list/providers/todo_list_provider.dart';
 import 'package:todo_list/home_page.dart';
 
 class TodoItem extends ConsumerStatefulWidget {
