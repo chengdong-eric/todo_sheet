@@ -68,10 +68,37 @@ class HomePage extends ConsumerWidget {
                               final Uri emailLaunchUri = Uri(
                                 scheme: 'mailto',
                                 path: 'ericdc3365@outlook.com',
-                                query: 'subject=Feedback for todo sheet App',
+                                queryParameters: {
+                                  'subject': 'Feedback for todo sheet App',
+                                },
                               );
-                              if (await canLaunchUrl(emailLaunchUri)) {
-                                await launchUrl(emailLaunchUri);
+
+                              try {
+                                if (await canLaunchUrl(emailLaunchUri)) {
+                                  await launchUrl(
+                                    emailLaunchUri,
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                } else {
+                                  // Fallback: show error or copy email to clipboard
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'No email app found. Please contact: ericdc3365@outlook.com',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Failed to open email: $e'),
+                                    ),
+                                  );
+                                }
                               }
                             },
                           ),
